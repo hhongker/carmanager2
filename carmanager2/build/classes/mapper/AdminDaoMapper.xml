@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jy.it.dao.AdminDao" >
+  
+  
+  
+  <resultMap id="BaseResultMap" type="com.jy.it.entity.Admin" >
+    <id column="admin_id"  property="id"/>
+    <result column="admin_name" property="name"/>
+    <result column="admin_pwd" property="pwd"/> 
+  </resultMap>
+
+
+  <resultMap id="Users" type="com.jy.it.entity.User" >
+    <id column="user_id"  property="id"/>
+    <result column="user_name" property="name"/>
+    <result column="user_no" property="no"/>
+    <result column="user_sex" property="sex"/>
+    <result column="user_photo" property="photo"/>
+    <result column="user_pwd" property="pwd"/>
+    <result column="user_driverno" property="driverno"/>
+    <result column="user_phone" property="phone"/>
+    <result column="user_email" property="email"/>
+    <result column="user_address" property="address"/>
+    <result column="user_score" property="score"/>
+  </resultMap>
+  
+ <!-- 
+ <resultMap id="Car" type="com.jy.it.entity.Car" >
+  <id column="car_id"  property="id"/>
+    <result column="car_no" property="no"/>
+    <result column="car_type_id" property="typeId"/>
+    <result column="car_user_id" property="userId"/>
+    <result column="car_begintime" property="beginTime"/>
+    <result column="car_ns_state" property="state"/>
+    <result column="car_run_no" property="runNo"/>
+    <result column="car_photo" property="photo"/>
+  </resultMap>
+   -->
+  
+  
+   <resultMap id="CarType" type="com.jy.it.entity.CarType" >
+  <id column="ct_id"  property="id"/>
+    <result column="ct_name" property="name"/>
+    <result column="ct_man" property="mans"/>
+  </resultMap>
+ 
+
+  <select id="login" resultMap="BaseResultMap">
+  select * from admins where admin_name = #{0} and admin_pwd = #{1}
+  </select>
+  
+  <insert id="addUser">
+  insert into users values(default,#{name},#{no},#{sex},#{photo},#{pwd},#{driverno},#{phone},#{email},#{address},#{score})
+  </insert>
+  
+  
+  <select id="getAllUser" resultMap="Users">
+  	select * from users
+  </select>
+  
+  
+  
+  <select id="getAllCarType" resultMap="CarType">
+  	select * from cartypes
+  </select>
+
+
+	<insert id="addCar" >
+	insert into cars values(default,#{no},#{typeId},#{userId},#{beginTime},#{state},#{runNo},#{photo})	
+	</insert>
+	
+
+  
+</mapper>

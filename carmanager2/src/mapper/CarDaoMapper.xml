@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jy.it.dao.CarDao" >
+  <resultMap id="BaseResultMap" type="com.jy.it.entity.Car" >
+    <id column="car_id"  property="id"/>
+    <result column="car_no" property="no"/>
+    <result column="car_type_id" property="typeId"/>
+    <result column="car_user_id" property="userId"/>
+     <result column="car_begintime" property="beginTime"/>
+    <result column="car_ns_state" property="state"/>
+    <result column="car_run_no" property="runNo"/>
+    <result column="car_photo" property="photo"/>
+
+	<result column="ct_name" property="typeName"/>
+    <result column="users_name" property="userName"/>
+	<result column="user_phone" property="userPhone"/>
+    <result column="user_email" property="userEmail"/>
+	
+  </resultMap>
+
+  <select id="selectByNo" resultMap="BaseResultMap">
+ 	select 
+ 	c.*,
+ 	t.ct_name,
+ 	u.user_name,u.user_phone,u.user_email
+ 	from cars c
+ 	join Users u on c.car_user_id = u.user_id
+ 	join cartypes t on t.ct_id = car_type_id
+ 	where c.car_no = #{no}
+  </select>
+  
+  <select id="selectListByUser" resultMap="BaseResultMap">
+ 	select 
+ 	c.*,
+ 	t.ct_name,
+ 	u.user_name,u.user_phone,u.user_email
+ 	from cars c
+ 	join Users u on c.car_user_id = u.user_id
+ 	join cartypes t on t.ct_id = car_type_id
+ 	where c.car_user_id = #{uid}
+  </select>
+  
+  
+</mapper>

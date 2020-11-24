@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jy.it.dao.WzDao" >
+
+<resultMap type="com.jy.it.entity.Wz" id="baseResultMap">
+	<id column="wz_id" property="id"/>
+	<result column="wz_car_id" property="carId"/>
+	<result column="wz_rule_id" property="ruleId"/>
+	<result column="wz_adress" property="adress"/>
+	<result column="wz_time" property="time"/>
+	<result column="wz_driver_id" property="driverId"/>
+	<result column="wz_state" property="state"/>
+	<result column="wz_pay" property="pay"/>
+	<result column="wz_score" property="score"/>
+	<result column="wz_photo" property="photo"/>
+	<result column="wz_remark" property="remark"/>
+	<result column="wz_admin_id" property="adminId"/>
+	
+	<result column="rule_name" property="ruleName"/>
+	<result column="car_no" property="carNo"/>
+	
+	<result column="user_name" property="userName"/>
+	<result column="user_phone" property="userPhone"/>
+	<result column="user_email" property="userEmail"/>
+</resultMap>
+
+
+  <insert id = "insert">
+   insert into wzs values(default,#{0},#{1},#{2},#{3},null,'待确认',#{4},#{5},#{6},#{7},#{8})
+  </insert>
+  
+  <sql id = "selectsql" >
+  	select w.*, r.rule_name, c.car_no,u.user_name,u.user_phone,u.user_email from wzs w
+  	join cars c on w.wz_car_id = c.car_id
+  	join rules r on wz_rule_id = r.rule_id
+  	join users u on u.user_id = c.car_user_id
+  	</sql>
+  
+  <select id = "selectListByCar" resultMap = "baseResultMap">
+  	<include refid="selectsql"></include>
+  	where w.wz_car_id = #{carid}
+  </select>
+  
+  <select id="selectListByCarNo" resultMap = "baseResultMap">
+  	<include refid="selectsql"></include>
+  	where c.car_no = #{carno}
+  </select>
+  
+  <select id = "selectById" resultMap = "baseResultMap">
+  	<include refid="selectsql"></include>
+  	where w.wz_id = #{id}
+  </select>
+  
+  <update id="update">
+  	update wzs
+  	set wz_car_id = #{carId}, wz_rule_id = #{ruleId}, wz_address = #{address},
+  	wz_time = #{time}, wz_driver_id = #{driverId}, wz_state = #{state}, wz_pay = #{pay},
+  	wz_score = #{score}, wz_photo = #{photo}, wz_remark = #{remark}, wz_admin_id = #{adminId} 
+  	where 
+  	wz_id= #{id}
+  
+  </update>
+  
+</mapper>

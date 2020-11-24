@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.jy.it.dao.ReportDao" >
+  <select id="selectReportRule" resultType="map">
+  
+  select r.rule_name as name,count(*) as value from wzs w
+	join rules r on r.rule_id=w.wz_rule_id
+	group by r.rule_name
+  
+   </select>
+   
+   
+    <select id="selectNumForScore" resultType="map">
+  	SELECT count(user_id) as value,user_score as name FROM users group by user_score;
+    </select>
+</mapper>
+  

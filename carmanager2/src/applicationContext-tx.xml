@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.springframework.org/schema/beans" 
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:context="http://www.springframework.org/schema/context" 
+
+xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:cache="http://www.springframework.org/schema/cache"
+   xmlns:p="http://www.springframework.org/schema/p"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+     http://www.springframework.org/schema/aop
+     http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context-4.0.xsd
+     http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+     http://www.springframework.org/schema/cache 
+     http://www.springframework.org/schema/cache/spring-cache-4.0.xsd">
+     
+    <!--  事务配置 -->
+     <!-- 代表控制事务实际操作的类,进行打开事务,提交事务,出错的时候回滚事务 -->
+    <bean id="txManager"
+  	  class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+  	  p:dataSource-ref="dataSource"
+    />
+    <!-- 相当于我们自己编的切面的类 LogErr 环绕通知 -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="pay*" read-only="false" propagation="REQUIRED" />
+			<tx:method name="add*" read-only="false" propagation="REQUIRED" />
+			<tx:method name="edit*" read-only="false" propagation="REQUIRED" />
+			<tx:method name="update*" read-only="false" propagation="REQUIRED" />
+			<tx:method name="del*" read-only="false" propagation="REQUIRED" />
+			<tx:method name="*" read-only="true" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>   		
+    <aop:config>
+		<aop:pointcut expression="execution(public * com.jy.it.service.impl.*.*(..))" id="pt-tx" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pt-tx" />
+	</aop:config>
+
+ </beans>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
